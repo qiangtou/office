@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>办公用品</title>
+    <script src="lib/avalon.js"></script>
+    <script src="lib/main.js"></script>
+    <style>
+        td{
+            width:158px;
+            height:25px;
+        }
+    </style>
+</head>
+<body>
+<div ms-controller="office">
+    <div>
+        <ul ms-each-el="menus">
+            <li>
+                <a ms-href="#{{url}}" ms-click="">{{name}}</a>
+            </li>
+        </ul>
+    </div>
+    <div>
+
+        <form>
+        日期<input ms-duplex="add.date" />
+        名称<input ms-duplex="add.name"/>
+        型号<input ms-duplex="add.type"/>
+        单位<input ms-duplex="add.unit"/>
+        <br/>
+        数量<input ms-duplex="add.num"/>
+        单价<input ms-duplex="add.price"/>
+        金额 <span>{{add.total}}</span>
+        备注<input ms-duplex="add.remark"/>
+            <a href="#" ms-click="addIt">录入</a>
+
+        </form>
+
+    </div>
+    <div>
+        <table ms-visible="arr.size()">
+            <thead>
+            <tr>
+                <th>入库日期</th>
+                <th>名称</th>
+                <th>型号</th>
+                <th>单位</th>
+                <th>数量</th>
+                <th>单价</th>
+                <th>金额</th>
+                <th>备注</th>
+            </tr>
+            </thead>
+            <tbody ms-each-el="arr">
+            <tr ms-dblclick="editIt">
+                <td>
+                   <span  ms-visible="!edit" > {{date|date("yyyy-MM-dd")}} </span>
+                    <input ms-visible="edit" ms-duplex="date"/>
+                </td>
+                <td>
+                    <span ms-visible="!edit">{{name}}</span>
+                <input ms-visible="edit" ms-duplex="name"/>
+                </td>
+                <td>
+                    <span ms-visible="!edit">{{type}}</span>
+                    <input ms-visible="edit" ms-duplex="type"/>
+                </td>
+                <td>
+                    <span ms-visible="!edit">{{unit}}</span>
+                    <input ms-visible="edit" ms-duplex="unit"/>
+                </td>
+                <td>
+                    <span ms-visible="!edit">{{num}}</span>
+                    <input ms-visible="edit" ms-duplex="num"/>
+                </td>
+
+                <td>
+                    <span ms-visible="!edit">{{price}}</span>
+                    <input ms-visible="edit" ms-duplex="price"/>
+                </td>
+                <td>{{num*price}}</td>
+                <td>
+                    <span ms-visible="!edit">{{remark}}</span>
+                    <input ms-visible="edit" ms-duplex="remark"/>
+                </td>
+                <td >
+                    <a ms-visible="edit" ms-click="save"  href="#">更新</a>
+                    <a ms-visible="!edit" ms-click="$remove" ms-click-1="remove" href="#">删除</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+</body>
+</html>
