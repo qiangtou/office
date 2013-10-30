@@ -3,40 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <title>办公用品</title>
+    <link href="themes/base/jquery.ui.all.css" rel="stylesheet"></link>
+    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script type="text/javascript" src='lib/jquery.min.js'></script>
+    <script src="lib/bootstrap.min.js"></script>
+    <script src="ui/jquery.ui.core.js"></script>
+    <script src="ui/jquery.ui.widget.js"></script>
+    <script src="ui/jquery.ui.datepicker.js"></script>
+    <script src="ui/i18n/jquery.ui.datepicker-zh-CN.js"></script>
     <script src="lib/avalon.js"></script>
-    <script src="lib/main.js"></script>
     <style>
         td{
             width:158px;
             height:25px;
         }
+        select{
+            width:60px;
+        }
+        input{
+            width:90px;
+        }
     </style>
 </head>
 <body>
-<div ms-controller="office">
+<div class="container" ms-controller="office">
     <div>
-        <ul ms-each-el="menus">
+        <ul class='nav nav-tabs' ms-each-el="menus">
             <li>
-                <a ms-href="#{{url}}" ms-click="">{{name}}</a>
+                <a ms-href="#{{hash}}" ms-click="">{{name}}</a>
             </li>
         </ul>
     </div>
     <div>
-        <form>
-        日期<input ms-duplex="add.date" />
-        名称<input ms-duplex="add.name"/>
-        型号<input ms-duplex="add.type"/>
-        单位<input ms-duplex="add.unit"/>
+        <form ms-controller="inRes" class='form-search form-inline' action="">
+            日期<input class='date' type="text" ms-duplex="add.date" />
+            名称<input type="text" ms-duplex="add.name"/>
+            型号<input type="text" ms-duplex="add.type"/>
+            单位 <select ms-duplex='add.unit' ms-each-el="units">
+            <option ms-value="{{value}}">{{name}}</option>
+            </select>
         <br/>
-        数量<input ms-duplex="add.num"/>
-        单价<input ms-duplex="add.price"/>
-        金额 <span>{{add.total}}</span>
-        备注<input ms-duplex="add.remark"/>
-            <a href="#" ms-click="addIt">录入</a>
+            数量<input type="text" ms-duplex="add.num"/>
+            单价<input type="text" ms-duplex="add.price"/>
+            金额 <span>{{add.total}}</span>
+            备注<input type="text" ms-duplex="add.remark"/>
+            <a href="#" ms-click="addIt" class="btn">录入</a>
         </form>
     </div>
     <div>
-        <table ms-visible="arr.size()">
+        <table class="table table-hover table-striped"ms-visible="arr.size()">
             <thead>
             <tr>
                 <th>入库日期</th>
@@ -50,47 +65,37 @@
             </tr>
             </thead>
             <tbody ms-each-el="arr">
-            <tr ms-dblclick="editIt">
+            <tr>
                 <td>
-                   <span  ms-visible="!edit" > {{date|date("yyyy-MM-dd")}} </span>
-                    <input ms-visible="edit" ms-duplex="date"/>
+                   <span>{{date}}</span>
                 </td>
                 <td>
-                    <span ms-visible="!edit">{{name}}</span>
-                <input ms-visible="edit" ms-duplex="name"/>
+                    <span>{{name}}</span>
                 </td>
                 <td>
-                    <span ms-visible="!edit">{{type}}</span>
-                    <input ms-visible="edit" ms-duplex="type"/>
+                    <span>{{type}}</span>
                 </td>
                 <td>
-                    <span ms-visible="!edit">{{unit}}</span>
-                    <input ms-visible="edit" ms-duplex="unit"/>
+                    <span>{{unit}}</span>
                 </td>
                 <td>
-                    <span ms-visible="!edit">{{num}}</span>
-                    <input ms-visible="edit" ms-duplex="num"/>
+                    <span>{{num}}</span>
                 </td>
-
                 <td>
-                    <span ms-visible="!edit">{{price}}</span>
-                    <input ms-visible="edit" ms-duplex="price"/>
+                    <span>{{price}}</span>
                 </td>
                 <td>{{num*price}}</td>
                 <td>
-                    <span ms-visible="!edit">{{remark}}</span>
-                    <input ms-visible="edit" ms-duplex="remark"/>
+                    <span>{{remark}}</span>
                 </td>
                 <td >
-                    <a ms-visible="edit" ms-click="save"  href="#">更新</a>
-                    <a ms-visible="!edit" ms-click="$remove" ms-click-1="remove" href="#">删除</a>
+                    <a  ms-click="removeIt"  href="#">删除</a>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
-
-
+<script src="lib/main.js"></script>
 </body>
 </html>
