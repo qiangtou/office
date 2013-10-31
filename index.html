@@ -14,14 +14,14 @@
     <script src="lib/avalon.js"></script>
     <style>
         td{
-            width:158px;
+            width:170px;
             height:25px;
         }
         select{
             width:60px;
         }
         input{
-            width:90px;
+            width:80px;
         }
     </style>
 </head>
@@ -35,26 +35,35 @@
         </ul>
     </div>
     <div>
-        <form ms-controller="inRes" class='form-search form-inline' action="">
+        <form class='form-search form-inline' action="">
             日期<input class='date' type="text" ms-duplex="add.date" />
-            名称<input type="text" ms-duplex="add.name"/>
-            型号<input type="text" ms-duplex="add.type"/>
-            单位 <select ms-duplex='add.unit' ms-each-el="units">
-            <option ms-value="{{value}}">{{name}}</option>
+            <input placeholder='名称' type="text" ms-duplex="add.name"/>
+            <input placeholder="型号" type="text" ms-duplex="add.type"/>
+            <select ms-duplex='add.unit' ms-each-el="units">
+            <option ms-value="{{$key}}">{{$val}}</option>
             </select>
-        <br/>
             数量<input type="text" ms-duplex="add.num"/>
-            单价<input type="text" ms-duplex="add.price"/>
+            单价<input placeholder="单价" type="text" ms-duplex="add.price"/>
             金额 <span>{{add.total}}</span>
             备注<input type="text" ms-duplex="add.remark"/>
             <a href="#" ms-click="addIt" class="btn">录入</a>
         </form>
+        <form class='form-search form-inline' action="#apply">
+            <input type="text" ms-duplex="query.from" class="date" />
+            to<input class="date" ms-duplex="query.to" type="text"/>
+            <input type="text" ms-duplex="query.name" placeholder="名称"/>
+            <button class="btn" ms-click="search">search</button>
+        </form>
     </div>
     <div>
-        <table class="table table-hover table-striped"ms-visible="arr.size()">
+        <table class="table table-hover table-striped"ms-visible="data.size()">
             <thead>
             <tr>
-                <th>入库日期</th>
+                <th>
+                    <input  ms-click="selectAll" type="checkbox"/>
+                    <a href="#" >入库</a>
+                </th>
+                <th>申请日期</th>
                 <th>名称</th>
                 <th>型号</th>
                 <th>单位</th>
@@ -62,10 +71,15 @@
                 <th>单价</th>
                 <th>金额</th>
                 <th>备注</th>
+                <th>操作</th>
             </tr>
             </thead>
-            <tbody ms-each-el="arr">
+            <tbody ms-each-el="data">
             <tr>
+                <td>
+                    <input type="checkbox" ms-checked="status"/>
+                    <span>{{id}}</span>
+                </td>
                 <td>
                    <span>{{date}}</span>
                 </td>
@@ -76,7 +90,7 @@
                     <span>{{type}}</span>
                 </td>
                 <td>
-                    <span>{{unit}}</span>
+                    <span>{{units[unit]}}</span>
                 </td>
                 <td>
                     <span>{{num}}</span>
@@ -84,12 +98,14 @@
                 <td>
                     <span>{{price}}</span>
                 </td>
-                <td>{{num*price}}</td>
+                <td>
+                    <span>{{total}}</span>
+                </td>
                 <td>
                     <span>{{remark}}</span>
                 </td>
                 <td >
-                    <a  ms-click="removeIt"  href="#">删除</a>
+                    <a href="#" ms-click="removeIt" class="btn-small">remove</a>
                 </td>
             </tr>
             </tbody>
