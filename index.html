@@ -18,7 +18,6 @@
             height: 25px;
             padding: 2px;
         }
-
         input[type=text], select {
             width: 75px;
             height: 20px;
@@ -26,9 +25,14 @@
             padding-top: 0px;
             padding-bottom: 0px;
         }
-
+		input.type{
+			width:110px;
+		}
+		input.dept{
+			width:170px;
+		}
         input.remark {
-            width: 400px;
+            width: 520px;
         }
     </style>
 </head>
@@ -46,11 +50,11 @@
             <div>
                 日期<input class='date' data-model="add.date" type="text" ms-duplex="add.date"/>
                 名称<input type="text" ms-duplex="add.name"/>
-                型号<input type="text" ms-duplex="add.type"/>
-                部门 <input ms-duplex="add.dept" type="text"/>
+                部门 <input ms-duplex="add.dept" class='dept' type="text"/>
                 申请人 <input ms-duplex="add.user" type="text"/>
             </div>
             <div>
+                型号<input class='type' type="text" ms-duplex="add.type"/>
                 单位<select ms-duplex='add.unit' ms-each-el="units">
                 <option ms-value="{{$index+1}}">{{el}}</option>
             </select>
@@ -69,7 +73,6 @@
             名称<input type="text" ms-duplex="query.name"/>
             部门<input type="text" ms-duplex="query.dept"/>
             申请人<input type="text" ms-duplex="query.user"/>
-
             <button class="btn" ms-click="search(1)">search</button>
         </form>
     </div>
@@ -123,7 +126,23 @@
     </div>
     <div ms-controller="page" ms-visible="data.size()">
         <div>
-            <a id="export" class="btn btn-primary" href="#">Excel</a>
+            <a ms-click="exports" class="btn btn-primary" href="#">Excel</a>
+			
+
+			<div ms-visible='1'>
+				<table>
+					<thead>
+						<tr ms-each-el='["申请日期","名称","型号","单位","数量","单价","金额","备注"]'>
+							<td>{{el}}</td>
+						</tr>
+					</thead>
+					<tbody>
+					<tr ms-each-el='excelData'>
+						<td></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
             <select ms-duplex="size" ms-each-el="sizeArr">
                 <option ms-value="el">{{el}}</option>
             </select>
