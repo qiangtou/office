@@ -13,15 +13,22 @@
     <script src="ui/i18n/jquery.ui.datepicker-zh-CN.js"></script>
     <script src="lib/avalon.js"></script>
     <style>
-        td{
-            width:170px;
-            height:25px;
+        .table td {
+            width: 170px;
+            height: 25px;
+            padding: 2px;
         }
-        select{
-            width:60px;
+
+        input[type=text], select {
+            width: 75px;
+            height: 20px;
+            margin: 1px 10px;
+            padding-top: 0px;
+            padding-bottom: 0px;
         }
-        input{
-            width:80px;
+
+        input.remark {
+            width: 400px;
         }
     </style>
 </head>
@@ -36,33 +43,40 @@
     </div>
     <div>
         <form class='form-search form-inline' action="">
-            日期<input class='date' type="text" ms-duplex="add.date" />
-            <input placeholder='名称' type="text" ms-duplex="add.name"/>
-            <input placeholder="型号" type="text" ms-duplex="add.type"/>
-            <select ms-duplex='add.unit' ms-each-el="units">
-            <option ms-value="{{$key}}">{{$val}}</option>
+            <div>
+                日期<input class='date' data-model="add.date" type="text" ms-duplex="add.date"/>
+                名称<input type="text" ms-duplex="add.name"/>
+                型号<input type="text" ms-duplex="add.type"/>
+                部门 <input ms-duplex="add.dept" type="text"/>
+                申请人 <input ms-duplex="add.user" type="text"/>
+            </div>
+            <div>
+                单位<select ms-duplex='add.unit' ms-each-el="units">
+                <option ms-value="{{$index+1}}">{{el}}</option>
             </select>
-            数量<input type="text" ms-duplex="add.num"/>
-            单价<input placeholder="单价" type="text" ms-duplex="add.price"/>
-            金额 <span>{{add.total}}</span>
-            备注<input type="text" ms-duplex="add.remark"/>
-            <a href="#" ms-click="addIt" class="btn">录入</a>
+                数量<input type="text" ms-duplex="add.num"/>
+                单价<input type="text" ms-duplex="add.price"/>
+                金额 <input type="text" ms-duplex="add.total" readonly/>
+            </div>
+            <div>
+                备注<input class="remark" type="text" ms-duplex="add.remark"/>
+                <a href="#" ms-click="addIt" class="btn">录入</a>
+            </div>
         </form>
         <form class='form-search form-inline' action="#apply">
-            <input type="text" ms-duplex="query.from" class="date" />
-            to<input class="date" ms-duplex="query.to" type="text"/>
-            <input type="text" ms-duplex="query.name" placeholder="名称"/>
-            <button class="btn" ms-click="search">search</button>
+            日期<input type="text" data-model="query.from" ms-duplex="query.from" class="date"/>
+            to<input class="date" data-model="query.to" ms-duplex="query.to" type="text"/>
+            名称<input type="text" ms-duplex="query.name"/>
+            部门<input type="text" ms-duplex="query.dept"/>
+            申请人<input type="text" ms-duplex="query.user"/>
+
+            <button class="btn" ms-click="search(1)">search</button>
         </form>
     </div>
     <div>
-        <table class="table table-hover table-striped"ms-visible="data.size()">
+        <table class="table table-hover table-striped" ms-visible="data.size()">
             <thead>
             <tr>
-                <th>
-                    <input  ms-click="selectAll" type="checkbox"/>
-                    <a href="#" >入库</a>
-                </th>
                 <th>申请日期</th>
                 <th>名称</th>
                 <th>型号</th>
@@ -77,10 +91,7 @@
             <tbody ms-each-el="data">
             <tr>
                 <td>
-                    <span>{{id}}</span>
-                </td>
-                <td>
-                   <span>{{date}}</span>
+                    <span>{{date}}</span>
                 </td>
                 <td>
                     <span>{{name}}</span>
@@ -89,7 +100,7 @@
                     <span>{{type}}</span>
                 </td>
                 <td>
-                    <span>{{units[unit]}}</span>
+                    <span>{{units[unit-1]}}</span>
                 </td>
                 <td>
                     <span>{{num}}</span>
@@ -103,12 +114,30 @@
                 <td>
                     <span>{{remark}}</span>
                 </td>
-                <td >
+                <td>
                     <a href="#" ms-click="removeIt" class="btn-small">remove</a>
                 </td>
             </tr>
             </tbody>
         </table>
+    </div>
+    <div ms-controller="page" ms-visible="data.size()">
+        <div>
+            <a id="export" class="btn btn-primary" href="#">Excel</a>
+            <select ms-duplex="size" ms-each-el="sizeArr">
+                <option ms-value="el">{{el}}</option>
+            </select>
+            记录数: <span>{{total}}</span>
+        </div>
+        <div class="pagination">
+            <ul>
+                <li><a href="" ms-click="toPage(1)">首页</a></li>
+                <li><a href="" ms-click="toPage(page-1)" ms-visible="page>1">上一页</a></li>
+                <li><span>{{page}}</span></li>
+                <li><a href="" ms-click="toPage(page+1)" ms-visible="page<totalPage">下一页</a></li>
+                <li><a href="" ms-click="toPage(totalPage)">{{totalPage}}</a></li>
+            </ul>
+        </div>
     </div>
 </div>
 <script src="lib/main.js"></script>
