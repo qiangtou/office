@@ -1,0 +1,29 @@
+<table class="table table-hover table-striped" ms-visible="data.size()">
+    <thead>
+    <tr>
+        <th>申请日期</th>
+        <th>名称</th>
+        <th>型号</th>
+        <th>单位</th>
+        <th>数量</th>
+        <th>单价</th>
+        <th>金额</th>
+        <th>备注</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody ms-each-el="data">
+    <tr>
+        <td> <span>{{date}}</span> </td>
+        <td> <span>{{name}}</span> </td>
+        <td> <span>{{type}}</span> </td>
+        <td> <span>{{units[unit]}}</span> </td>
+        <td> <span>{{num}}</span> </td>
+        <td> <span>{{price}}</span> </td>
+        <td> <span>{{total}}</span> </td>
+        <td> <span>{{remark}}</span> </td>
+        <td> <a href="#" ms-click="removeIt" class="btn-small">删除</a> </td>
+    </tr>
+    </tbody>
+</table>
+

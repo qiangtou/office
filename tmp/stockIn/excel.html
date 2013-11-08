@@ -1,0 +1,20 @@
+<table>
+    <thead>
+    <tr ms-each-el='["申请日期","名称","型号","单位","数量","单价","金额","备注"]'>
+        <td>{{el}}</td>
+    </tr>
+    </thead>
+    <tbody ms-each-el='excelData'>
+    <tr >
+        <td>{{date}}</td>
+        <td>{{name}}</td>
+        <td>{{type}}</td>
+        <td>{{units[unit]}}</td>
+        <td>{{num}}</td>
+        <td>{{price}}</td>
+        <td>{{total}}</td>
+        <td>{{remark}}</td>
+    </tr>
+    </tbody>
+</table>
+
