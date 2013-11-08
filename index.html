@@ -56,7 +56,7 @@
             <div>
                 型号<input class='type' type="text" ms-duplex="add.type"/>
                 单位<select ms-duplex='add.unit' ms-each-el="units">
-                <option ms-value="{{$index+1}}">{{el}}</option>
+                <option ms-value="{{$index}}">{{el}}</option>
             </select>
                 数量<input type="text" ms-duplex="add.num"/>
                 单价<input type="text" ms-duplex="add.price"/>
@@ -73,7 +73,7 @@
             名称<input type="text" ms-duplex="query.name"/>
             部门<input type="text" ms-duplex="query.dept"/>
             申请人<input type="text" ms-duplex="query.user"/>
-            <button class="btn" ms-click="search(1)">search</button>
+            <button class="btn" ms-click="search(1)">查询</button>
         </form>
     </div>
     <div>
@@ -103,7 +103,7 @@
                     <span>{{type}}</span>
                 </td>
                 <td>
-                    <span>{{units[unit-1]}}</span>
+                    <span>{{units[unit]}}</span>
                 </td>
                 <td>
                     <span>{{num}}</span>
@@ -118,7 +118,7 @@
                     <span>{{remark}}</span>
                 </td>
                 <td>
-                    <a href="#" ms-click="removeIt" class="btn-small">remove</a>
+                    <a href="#" ms-click="removeIt" class="btn-small">删除</a>
                 </td>
             </tr>
             </tbody>
@@ -127,18 +127,24 @@
     <div ms-controller="page" ms-visible="data.size()">
         <div>
             <a ms-click="exports" class="btn btn-primary" href="#">Excel</a>
-			
 
-			<div ms-visible='1'>
+			<div id='excel' ms-visible='false'>
 				<table>
 					<thead>
 						<tr ms-each-el='["申请日期","名称","型号","单位","数量","单价","金额","备注"]'>
 							<td>{{el}}</td>
 						</tr>
 					</thead>
-					<tbody>
-					<tr ms-each-el='excelData'>
-						<td></td>
+					<tbody ms-each-el='excelData'>
+					<tr >
+						<td>{{date}}</td>
+                        <td>{{name}}</td>
+                        <td>{{type}}</td>
+                        <td>{{units[unit]}}</td>
+                        <td>{{num}}</td>
+                        <td>{{price}}</td>
+                        <td>{{total}}</td>
+                        <td>{{remark}}</td>
 					</tr>
 					</tbody>
 				</table>
@@ -148,7 +154,7 @@
             </select>
             记录数: <span>{{total}}</span>
         </div>
-        <div class="pagination">
+        <div class="pagination" ms-visible="totalPage>1" >
             <ul>
                 <li><a href="" ms-click="toPage(1)">首页</a></li>
                 <li><a href="" ms-click="toPage(page-1)" ms-visible="page>1">上一页</a></li>
