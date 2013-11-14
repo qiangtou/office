@@ -6,7 +6,7 @@
 </div>
 <div>
     型号<input class='type' type="text" ms-duplex="add.type"/>
-    单位<select ms-duplex='add.unit' ms-each-el="units">
+    单位<select ms-duplex='add.unit' ms-each-el="$units">
     <option ms-value="{{$index}}">{{el}}</option>
 </select>
     数量<input type="text" ms-duplex="add.num"/>
