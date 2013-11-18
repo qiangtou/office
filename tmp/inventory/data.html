@@ -5,24 +5,45 @@
         <th>型号</th>
         <th>单位</th>
         <th>数量</th>
-        <th>单价</th>
-        <th>金额</th>
-        <th>备注</th>
         <th>操作</th>
     </tr>
     </thead>
     <tbody ms-each-el="data">
     <tr>
-        <td> <span>{{date}}</span> </td>
-        <td> <span>{{name}}</span> </td>
-        <td> <span>{{type}}</span> </td>
-        <td> <span>{{units[unit]}}</span> </td>
-        <td> <span>{{num}}</span> </td>
-        <td> <span>{{price}}</span> </td>
-        <td> <span>{{total}}</span> </td>
-        <td> <span>{{remark}}</span> </td>
-        <td> <a href="#" ms-click="removeIt" class="btn-small">删除</a> </td>
+        <td>{{name}}</td>
+        <td>{{type}}</td>
+        <td>{{$units[unit]}}</td>
+        <td>{{num}}</td>
+        <td>
+            <a href="#" ms-click="use" >领用</a>
+        </td>
     </tr>
     </tbody>
 </table>
+<form ms-controller="useit" ms-visible="show" action="">
+    名称：{{data.name}}
+    型号：{{data.type}}
+    数量:<input ms-duplex="data.num" type="text"/>
+    部门:<input ms-duplex="data.dept" type="text"/>
+    领用人:<input ms-duplex="data.user"  type="text"/>
+    <a href="#" ms-click="use">确定领用</a>
+</form>
+<script>
+    avalon.define('useit',function(vm){
+        vm.data={
+            name:'',
+            type:'',
+            num:'',
+            dept:'',
+            user:''
+        }
+        vm.show=false;
+        vm.use=function(){
+            console.log('use');
 
+            return false;
+        }
+
+    });
+
+</script>
