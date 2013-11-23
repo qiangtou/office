@@ -1,0 +1,21 @@
+.table td {
+    width: 170px;
+    height: 25px;
+    padding: 2px;
+}
+input[type=text], select {
+    width: 75px;
+    height: 20px;
+    margin: 1px 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+input.type{
+    width:110px;
+}
+input.dept{
+    width:170px;
+}
+input.remark {
+    width: 520px;
+}

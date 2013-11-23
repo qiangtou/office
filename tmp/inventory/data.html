@@ -1,3 +1,12 @@
+<form ms-controller="useit" ms-visible="show" action="">
+    名称：{{data.name}}
+    型号：{{data.type}}
+    日期:<input class='date-use' ms-duplex="data.date" type="text"/>
+    数量:<input ms-duplex="data.num" type="text"/>
+    部门:<input ms-duplex="data.dept" type="text"/>
+    领用人:<input ms-duplex="data.user"  type="text"/>
+    <a href="#" ms-click="stockout" class="btn">确定领用</a>
+</form>
 <table class="table table-hover table-striped" ms-visible="data.size()">
     <thead>
     <tr>
@@ -20,30 +29,45 @@
     </tr>
     </tbody>
 </table>
-<form ms-controller="useit" ms-visible="show" action="">
-    名称：{{data.name}}
-    型号：{{data.type}}
-    数量:<input ms-duplex="data.num" type="text"/>
-    部门:<input ms-duplex="data.dept" type="text"/>
-    领用人:<input ms-duplex="data.user"  type="text"/>
-    <a href="#" ms-click="use">确定领用</a>
-</form>
 <script>
-    avalon.define('useit',function(vm){
-        vm.data={
-            name:'',
-            type:'',
-            num:'',
-            dept:'',
-            user:''
+    $('.date-use').datepicker({
+        onSelect: function (v) {
+            useit.data.date=v;
         }
+    });
+    var useit=avalon.define('useit',function(vm){
+        vm.data='';
         vm.show=false;
-        vm.use=function(){
-            console.log('use');
-
+        var num;
+        vm.use=function(m){
+            num= m.num;
+            vm.data={
+                date: $.datepicker.formatDate("yy-mm-dd", new Date),
+                name: m.name,
+                type: m.type,
+                unit: m.unit,
+                num: 1,
+                dept:'',
+                user:''
+            }
+            vm.show=true;
+            return false;
+        }
+        vm.stockout=function(){
+            var d=vm.data;
+            var left= num-d.num;
+            if(left<0){
+                alert('数量不能大于库存哦');
+                return false;
+            }
+            store.updateInventory(d)
+            store.save.stockOut($.extend({},d));
+            vm.show=false;
+            avalon.vmodels.office.search(1);
             return false;
         }
 
     });
+
 
 </script>
